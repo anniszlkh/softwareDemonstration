@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crypto Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --blue: bg-blue-500;
+      --beige: beige;
+    }
+  </style>
+</head>
+<body class="bg-neutral-900 text-gray-200 font-sans">
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-neutral-800 p-6 flex flex-col text-gray-100">
+      <h1 class="text-2xl font-bold mb-8 text-pink-400">CryptoDash</h1>
+      <nav class="flex-1">
+        <ul class="space-y-4">
+          <li><a href="#" onclick="showSection('dashboard')" class="hover:text-pink-300">Dashboard</a></li>
+          <li><a href="index.html" class="text-white-800 hover:underline">Back to Main</a></li>
+        </ul>
+      </nav>
+      <footer class="mt-auto text-sm text-gray-400">&copy; 2025 CryptoDash</footer>
+    </aside>
+
+    <!-- Main content -->
+    <div class="flex-1 p-8 bg-neutral-950 overflow-y-auto">
+      <!-- Header -->
+      <header class="flex justify-between items-center mb-6">
+        <span class="text-sm text-gray-400">Updated every 60s</span>
+        <h2 class="text-3xl font-semibold text-pink-300">Crypto Dashboard</h2>
+      </header>
+
+      <!-- Dashboard Section -->
+      <section id="dashboard-section">
+        <div id="crypto-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <!-- Cards inserted here by JS -->
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <script>
+    const coins = ["bitcoin", "ethereum", "solana", "cardano", "ripple", "dogecoin", "polkadot", "litecoin", "tron"];
+
+    async function fetchCryptoData() {
+      try {
+        const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coins.join(",")}&vs_currencies=usd&include_24hr_change=true`);
+        const data = await res.json();
+        const container = document.getElementById("crypto-container");
+        container.innerHTML = "";
+
+        coins.forEach((coin) => {
+          const { usd, usd_24h_change } = data[coin];
+          const changeColor = usd_24h_change >= 0 ? "text-green-400" : "text-red-400";
+
+          const card = `
+            <a href="coin.html?coin=${coin}">
+              <div class="bg-neutral-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:scale-105 transition-transform">
+                <h3 class="text-2xl font-bold text-pink-400 capitalize mb-2">${coin}</h3>
+                <p class="text-lg text-gray-200">$ ${usd.toFixed(2)}</p>
+                <p class="${changeColor} font-medium mt-1">${usd_24h_change.toFixed(2)}%</p>
+              </div>
+            </a>
+          `;
+
+          container.innerHTML += card;
+        });
+
+      } catch (error) {
+        console.error("Failed to fetch crypto data", error);
+      }
+    }
+
+    function showSection(section) {
+      const sections = ['dashboard', 'trends', 'watchlist', 'settings'];
+      sections.forEach(id => {
+        document.getElementById(`${id}-section`).classList.add("hidden");
+      });
+      document.getElementById(`${section}-section`).classList.remove("hidden");
+    }
+
+    fetchCryptoData();
+    setInterval(fetchCryptoData, 60000);
+  </script>
+</body>
+</html>
