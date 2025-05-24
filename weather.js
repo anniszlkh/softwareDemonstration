@@ -19,8 +19,8 @@ const PValue = document.getElementById("PValue");
 const Forecast = document.querySelector(".Forecast");
 
 const API_KEY = "826747d59f80c8030a2ac8f678aff286";
-const WEATHER_API_ENDPOINT = `https://api.openweathermap.org/data/2.5/weather?appid=${API_KEY}&units=metric&q=`;
-const FORECAST_API_ENDPOINT = `https://api.openweathermap.org/data/2.5/forecast?appid=${API_KEY}&units=metric&q=`;
+const WEATHER_API_ENDPOINT = `https://corsproxy.io/?https://api.openweathermap.org/data/2.5/weather?appid=${API_KEY}&units=metric&q=`;
+const FORECAST_API_ENDPOINT = `https://corsproxy.io/?https://api.openweathermap.org/data/2.5/forecast?appid=${API_KEY}&units=metric&q=`;
 
 function findUserLocation() {
   const location = userLocation.value.trim();
