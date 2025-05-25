@@ -6,38 +6,36 @@
   <title>Crypto Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  
 </head>
-<body class="bg-gradient-to-br from-red-900 via-white to-red-900 text-pink-200 font-sans">
-  <div class="flex h-screen">
+<body class="bg-gradient-to-br from-red-300 via-white to-yellow-900 text-pink-200 font-sans min-h-screen">
+  <div class="flex flex-col md:flex-row min-h-screen">
     <!-- Sidebar -->
-    <aside class="w-64 bg-white-800 p-6 flex flex-col text-gray-100">
-      <h1 class="text-2xl font-bold mb-8 text-red-400">CryptoDash</h1>
+    <aside class="w-full md:w-64 bg-gradient-red-300 p-6 flex flex-col text-red-700">
+      <h1 class="text-2xl font-bold mb-8 text-red-600">CryptoDash</h1>
       <nav class="flex-1">
         <ul class="space-y-4">
-          <li><a href="#" onclick="showSection('dashboard')" class="hover:text-pink-900">Dashboard</a></li>
-          <li><a href="index.html" class="text-black-800 hover:underline">Back to Main</a></li>
+          <li><a href="#" onclick="showSection('dashboard')" class="hover:text-pink-800">Dashboard</a></li>
+          <li><a href="index.html" class="hover:underline text-red-700">Back to Main</a></li>
         </ul>
       </nav>
       <footer class="mt-auto text-sm text-gray-400">&copy; 2025 CryptoDash</footer>
     </aside>
 
     <!-- Main content -->
-    <div class="flex-1 p-8 bg-gradient-to-br from-yellow-100 via-white to-red-100 overflow-y-auto">
+    <main class="flex-1 p-4 sm:p-6 md:p-8 bg-gradient-to-br from-yellow-100 via-white to-red-100 overflow-y-auto">
       <!-- Header -->
-      <header class="flex justify-between items-center mb-6">
-        <span class="text-sm text-gray-400">Updated every 60s</span>
-        <h2 class="text-3xl font-semibold text-red-300">Crypto Dashboard</h2>
+      <header class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-2">
+        <span class="text-sm text-gray-600">Updated every 60s</span>
+        <h2 class="text-3xl font-semibold text-red-400">Crypto Dashboard</h2>
       </header>
 
       <!-- Dashboard Section -->
       <section id="dashboard-section">
         <div id="crypto-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          <!--  -->
+          <!-- Crypto cards -->
         </div>
       </section>
-
-    </div>
+    </main>
   </div>
 
   <script>
@@ -52,18 +50,17 @@
 
         coins.forEach((coin) => {
           const { usd, usd_24h_change } = data[coin];
-          const changeColor = usd_24h_change >= 0 ? "text-green-400" : "text-red-400";
+          const changeColor = usd_24h_change >= 0 ? "text-green-500" : "text-red-500";
 
           const card = `
             <a href="coin.html?coin=${coin}">
-              <div class="bg-white-800 p-6 rounded-xl shadow-md hover:shadow-xl hover:scale-105 transition-transform">
+              <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-xl hover:scale-105 transition-transform">
                 <h3 class="text-2xl font-bold text-pink-400 capitalize mb-2">${coin}</h3>
-                <p class="text-lg text-gray-900">$ ${usd.toFixed(2)}</p>
+                <p class="text-lg text-gray-800">$ ${usd.toFixed(2)}</p>
                 <p class="${changeColor} font-medium mt-1">${usd_24h_change.toFixed(2)}%</p>
               </div>
             </a>
           `;
-
           container.innerHTML += card;
         });
 
